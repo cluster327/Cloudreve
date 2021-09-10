@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="delve16525" type="GoRemoteDebugConfigurationType" factoryName="Go Remote" host="cn-bj-ali-1.natfrp.cloud" port="16525">
+    <option name="disconnectOption" value="STOP" />
+    <disconnect value="STOP" />
+    <method v="2" />
+  </configuration>
+</component>
