@@ -54,6 +54,7 @@ var ThumbConfig = &thumb{
 	MaxWidth:   400,
 	MaxHeight:  300,
 	FileSuffix: "._thumb",
+	Path:       "thumb",
 }
 
 // SlaveConfig 从机配置

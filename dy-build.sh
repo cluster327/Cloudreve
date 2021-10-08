@@ -138,7 +138,7 @@ shift $((OPTIND-1))
 
 if [ "$DEBUG" = "true" ]; then
 #  debugInfo
-  buildAssets
+#  buildAssets
   buildDebugBinary
 
   dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec ./"${out}"

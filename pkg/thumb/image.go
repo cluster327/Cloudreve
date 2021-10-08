@@ -3,12 +3,14 @@ package thumb
 import (
 	"errors"
 	"fmt"
+	"github.com/cloudreve/Cloudreve/v3/pkg/conf"
 	"image"
 	"image/gif"
 	"image/jpeg"
 	"image/png"
 	"io"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	model "github.com/cloudreve/Cloudreve/v3/models"
@@ -54,6 +56,11 @@ func NewThumbFromFile(file io.Reader, name string) (*Thumb, error) {
 		src: img,
 		ext: ext[1:],
 	}, nil
+}
+
+func PathFromFile(file *model.File) string {
+	thumbPath := conf.ThumbConfig.Path + "/" + strconv.Itoa(int(file.ID)) + conf.ThumbConfig.FileSuffix
+	return util.RelativePath(thumbPath)
 }
 
 // GetThumb 生成给定最大尺寸的缩略图

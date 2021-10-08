@@ -221,7 +221,7 @@ func (handler Driver) Delete(ctx context.Context, files []string) ([]string, err
 }
 
 // Thumb 获取文件缩略图
-func (handler Driver) Thumb(ctx context.Context, path string) (*response.ContentResponse, error) {
+func (handler Driver) Thumb(ctx context.Context, file *model.File) (*response.ContentResponse, error) {
 	var (
 		thumbSize = [2]uint{400, 300}
 		ok        = false
@@ -233,7 +233,7 @@ func (handler Driver) Thumb(ctx context.Context, path string) (*response.Content
 	thumbParam := fmt.Sprintf("!/fwfh/%dx%d", thumbSize[0], thumbSize[1])
 	thumbURL, err := handler.Source(
 		ctx,
-		path+thumbParam,
+		file.SourceName+thumbParam,
 		url.URL{},
 		int64(model.GetIntSetting("preview_timeout", 60)),
 		false,

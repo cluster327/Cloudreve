@@ -280,7 +280,7 @@ func (handler Driver) Delete(ctx context.Context, files []string) ([]string, err
 }
 
 // Thumb 获取文件缩略图
-func (handler Driver) Thumb(ctx context.Context, path string) (*response.ContentResponse, error) {
+func (handler Driver) Thumb(ctx context.Context, file *model.File) (*response.ContentResponse, error) {
 	// 初始化客户端
 	if err := handler.InitOSSClient(true); err != nil {
 		return nil, err
@@ -299,7 +299,7 @@ func (handler Driver) Thumb(ctx context.Context, path string) (*response.Content
 	thumbOption := []oss.Option{oss.Process(thumbParam)}
 	thumbURL, err := handler.signSourceURL(
 		ctx,
-		path,
+		file.SourceName,
 		int64(model.GetIntSetting("preview_timeout", 60)),
 		thumbOption,
 	)

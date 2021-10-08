@@ -3,14 +3,13 @@ package filesystem
 import (
 	"context"
 	"fmt"
-	"strconv"
-
 	model "github.com/cloudreve/Cloudreve/v3/models"
 	"github.com/cloudreve/Cloudreve/v3/pkg/conf"
 	"github.com/cloudreve/Cloudreve/v3/pkg/filesystem/fsctx"
 	"github.com/cloudreve/Cloudreve/v3/pkg/filesystem/response"
 	"github.com/cloudreve/Cloudreve/v3/pkg/thumb"
 	"github.com/cloudreve/Cloudreve/v3/pkg/util"
+	"strconv"
 )
 
 /* ================
@@ -34,7 +33,7 @@ func (fs *FileSystem) GetThumb(ctx context.Context, id uint) (*response.ContentR
 	w, h := fs.GenerateThumbnailSize(0, 0)
 	ctx = context.WithValue(ctx, fsctx.ThumbSizeCtx, [2]uint{w, h})
 	ctx = context.WithValue(ctx, fsctx.FileModelCtx, fs.FileTarget[0])
-	res, err := fs.Handler.Thumb(ctx, fs.FileTarget[0].SourceName)
+	res, err := fs.Handler.Thumb(ctx, &fs.FileTarget[0])
 	if err == nil && conf.SystemConfig.Mode == "master" {
 		res.MaxAge = model.GetIntSetting("preview_timeout", 60)
 	}
@@ -78,7 +77,8 @@ func (fs *FileSystem) GenerateThumbnail(ctx context.Context, file *model.File) {
 	// 生成缩略图
 	image.GetThumb(fs.GenerateThumbnailSize(w, h))
 	// 保存到文件
-	err = image.Save(util.RelativePath(file.SourceName + conf.ThumbConfig.FileSuffix))
+	//err = image.Save(util.RelativePath(file.SourceName + conf.ThumbConfig.FileSuffix))
+	err = image.Save(thumb.PathFromFile(file))
 	if err != nil {
 		util.Log().Warning("无法保存缩略图：%s", err)
 		return

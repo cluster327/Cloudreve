@@ -4,11 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"io"
-	"net/url"
-	"os"
-	"path/filepath"
-
 	model "github.com/cloudreve/Cloudreve/v3/models"
 	"github.com/cloudreve/Cloudreve/v3/pkg/auth"
 	"github.com/cloudreve/Cloudreve/v3/pkg/cache"
@@ -16,7 +11,12 @@ import (
 	"github.com/cloudreve/Cloudreve/v3/pkg/filesystem/fsctx"
 	"github.com/cloudreve/Cloudreve/v3/pkg/filesystem/response"
 	"github.com/cloudreve/Cloudreve/v3/pkg/serializer"
+	"github.com/cloudreve/Cloudreve/v3/pkg/thumb"
 	"github.com/cloudreve/Cloudreve/v3/pkg/util"
+	"io"
+	"net/url"
+	"os"
+	"path/filepath"
 )
 
 // Driver 本地策略适配器
@@ -156,15 +156,16 @@ func (handler Driver) Delete(ctx context.Context, files []string) ([]string, err
 }
 
 // Thumb 获取文件缩略图
-func (handler Driver) Thumb(ctx context.Context, path string) (*response.ContentResponse, error) {
-	file, err := handler.Get(ctx, path+conf.ThumbConfig.FileSuffix)
+func (handler Driver) Thumb(ctx context.Context, file *model.File) (*response.ContentResponse, error) {
+	//file, err := handler.Get(ctx, path+conf.ThumbConfig.FileSuffix)
+	content, err := handler.Get(ctx, thumb.PathFromFile(file))
 	if err != nil {
 		return nil, err
 	}
 
 	return &response.ContentResponse{
 		Redirect: false,
-		Content:  file,
+		Content:  content,
 	}, nil
 }
 

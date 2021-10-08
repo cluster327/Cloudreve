@@ -73,6 +73,7 @@ type thumb struct {
 	MaxWidth   uint
 	MaxHeight  uint
 	FileSuffix string `validate:"min=1"`
+	Path       string
 }
 
 // 跨域配置

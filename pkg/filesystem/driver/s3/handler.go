@@ -262,7 +262,7 @@ func (handler Driver) Delete(ctx context.Context, files []string) ([]string, err
 }
 
 // Thumb 获取文件缩略图
-func (handler Driver) Thumb(ctx context.Context, path string) (*response.ContentResponse, error) {
+func (handler Driver) Thumb(ctx context.Context, file *model.File) (*response.ContentResponse, error) {
 	return nil, errors.New("未实现")
 }
 

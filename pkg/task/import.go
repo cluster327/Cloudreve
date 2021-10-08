@@ -162,7 +162,7 @@ func (job *ImportTask) Do() {
 			}
 
 			// 插入文件记录
-			_, err := fs.AddFile(addFileCtx, parentFolder)
+			file, err := fs.AddFile(addFileCtx, parentFolder)
 			if err != nil {
 				util.Log().Warning("导入任务无法创插入文件[%s], %s",
 					object.RelativePath, err)
@@ -170,6 +170,11 @@ func (job *ImportTask) Do() {
 					job.SetErrorMsg("容量不足", err)
 					return
 				}
+			}
+
+			// 尝试生成缩略图
+			if fs.User.Policy.IsThumbGenerateNeeded() {
+				fs.GenerateThumbnail(ctx, file)
 			}
 
 		}
